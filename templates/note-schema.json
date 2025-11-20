@@ -1,0 +1,9 @@
+﻿{
+  "id": "example-note",
+  "title": "Example Note",
+  "category": "General",
+  "tags": ["example"],
+  "content": "Short readable text or markdown string. Supports code blocks and lists.",
+  "examples": [],
+  "lastUpdated": "2025-11-20"
+}

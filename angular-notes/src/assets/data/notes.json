@@ -4,7 +4,7 @@
     "title": "Angular Routing Basics",
     "category": "Angular",
     "tags": ["routing","angular"],
-    "content": "Routes define navigation in Angular.\n\n`	s\nconst routes: Routes = [{ path: '', component: HomeComponent }];\n`",
+    "content": "Routes define navigation in Angular.\n\n`\ts\nconst routes: Routes = [{ path: '', component: HomeComponent }];\n`",
     "lastUpdated": "2025-11-20"
   },
   {

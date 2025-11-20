@@ -1,22 +1,107 @@
-﻿<div class='wrap'>
-  <aside class='sidebar'>
-    <h3>Topics</h3>
-    <ul>
-      <li *ngFor='let n of notes' (click)='open(n)'>{{ n.title }}</li>
-    </ul>
+﻿<!-- chat-page.component.html -->
+<div class="prod-shell" [ngClass]="{ dark: isDarkMode, 'sidebar-open': sidebarOpen }" (keydown)="onKeydown($event)">
+
+  <!-- mobile overlay -->
+  <div class="overlay" *ngIf="sidebarOpen" (click)="closeSidebar()"></div>
+
+  <!-- LEFT: Compact App Sidebar -->
+  <aside class="leftbar" aria-label="App navigation">
+    <div class="app-brand">
+      <div class="logo">✦</div>
+      <div class="name">NotesLab</div>
+    </div>
+
+    <nav class="nav-quick">
+      <button class="icon-btn" title="All notes">📄</button>
+      <button class="icon-btn" title="Starred">★</button>
+      <button class="icon-btn" title="Trash">🗑</button>
+    </nav>
+
+    <div class="left-footer">
+      <button class="icon-btn" (click)="toggleTheme()" title="Toggle theme">
+        {{ isDarkMode ? '☀️' : '🌙' }}
+      </button>
+    </div>
   </aside>
 
-  <main class='content'>
-    <ng-container *ngIf='selected; else empty'>
-      <app-message-bubble
-        [title]='selected.title'
-        [content]='selected.content'
-        [time]='selected.lastUpdated'>
-      </app-message-bubble>
-    </ng-container>
+  <!-- MIDDLE: Notes list (glass card) -->
+  <section class="midpanel" aria-label="Notes list">
+    <div class="mid-top">
+      <div class="mid-title">
+        <h2>Notes</h2>
+        <div class="hint">⌘K</div>
+      </div>
 
-    <ng-template #empty>
-      <div class='placeholder'>Select a note to view</div>
-    </ng-template>
+      <div class="mid-actions">
+        <button class="btn-ghost" (click)="createNew()">＋ New note</button>
+      </div>
+    </div>
+
+    <div class="mid-search">
+      <input class="search" type="search" placeholder="Search notes, tags..." [(ngModel)]="searchTerm"
+        (input)="search()" aria-label="Search notes" />
+    </div>
+
+    <ul class="notes-list" role="list">
+      <li *ngFor="let n of filteredNotes; trackBy: trackById" (click)="open(n)" [class.active]="selected?.id === n.id"
+        tabindex="0" [attr.data-note-id]="n.id">
+        <div class="note-left">
+          <div class="note-title">{{ n.title }}</div>
+          <div class="note-sub">{{ n.category || 'General' }}</div>
+        </div>
+        <div class="note-right">
+          <div class="note-date">{{ n.lastUpdated }}</div>
+          <div class="chev">›</div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- RIGHT: Content / Editor -->
+  <main class="content-area" role="main">
+    <header class="content-header">
+      <div class="content-title">
+        <h1>{{ selected?.title || 'Welcome' }}</h1>
+        <p class="sub" *ngIf="!selected">Organize notes — lightweight, fast, beautiful.</p>
+      </div>
+
+      <div class="content-actions">
+        <button class="btn-outline" (click)="share()">Share</button>
+        <button class="btn-primary" (click)="publish()" [disabled]="!selected">Publish</button>
+      </div>
+    </header>
+
+    <section class="content-body">
+      <ng-container *ngIf="selected; else empty">
+        <div class="meta-row">
+          <div class="meta-left">
+            <div class="meta-title">{{ selected.title }}</div>
+            <div class="meta-sub muted">Updated • {{ selected.lastUpdated }}</div>
+          </div>
+          <div class="meta-right">
+            <button class="ghost" (click)="edit(selected)">Edit</button>
+            <button class="icon-btn">⋯</button>
+          </div>
+        </div>
+
+        <article class="editor-card">
+          <app-message-bubble [title]="selected.title" [content]="selected.content" [time]="selected.lastUpdated">
+          </app-message-bubble>
+        </article>
+      </ng-container>
+
+      <ng-template #empty>
+        <div class="empty-state">
+          <!-- FIXED: Now using Angular assets path -->
+          <img src="assets/images/empty.png" alt="empty" />
+
+          <h3>Select a note to begin</h3>
+          <p class="muted">
+            Or create a new one with <strong>+ New note</strong> — or press
+            <kbd>⌘/Ctrl + N</kbd>.
+          </p>
+        </div>
+      </ng-template>
+    </section>
   </main>
 </div>

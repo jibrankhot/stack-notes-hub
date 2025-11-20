@@ -1,0 +1,18 @@
+﻿[
+  {
+    "id": "ng-routing",
+    "title": "Angular Routing Basics",
+    "category": "Angular",
+    "tags": ["routing","angular"],
+    "content": "Routes define navigation in Angular.\n\n`	s\nconst routes: Routes = [{ path: '', component: HomeComponent }];\n`",
+    "lastUpdated": "2025-11-20"
+  },
+  {
+    "id": "node-express-get",
+    "title": "Express GET Example",
+    "category": "Node",
+    "tags": ["express","api"],
+    "content": "Minimal GET example.\n\n`js\napp.get('/api/notes', (req,res)=>res.json([]));\n`",
+    "lastUpdated": "2025-11-20"
+  }
+]

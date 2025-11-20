@@ -1,0 +1,22 @@
+﻿<div class='wrap'>
+  <aside class='sidebar'>
+    <h3>Topics</h3>
+    <ul>
+      <li *ngFor='let n of notes' (click)='open(n)'>{{ n.title }}</li>
+    </ul>
+  </aside>
+
+  <main class='content'>
+    <ng-container *ngIf='selected; else empty'>
+      <app-message-bubble
+        [title]='selected.title'
+        [content]='selected.content'
+        [time]='selected.lastUpdated'>
+      </app-message-bubble>
+    </ng-container>
+
+    <ng-template #empty>
+      <div class='placeholder'>Select a note to view</div>
+    </ng-template>
+  </main>
+</div>
